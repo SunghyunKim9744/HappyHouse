@@ -79,39 +79,65 @@
             <div class="row register-form">
               <div class="col-md-12">
                 <div class="form-group">
-                  <input type="text" class="form-control" placeholder="ID *" value="" />
-                </div>
-                <div class="form-group">
                   <input
-                    type="password"
+                    ref="nickname"
+                    type="text"
                     class="form-control"
-                    placeholder="Password *"
-                    v-model="member.password"
+                    placeholder="ID *"
+                    v-model="registMember.nickname"
                   />
                 </div>
                 <div class="form-group">
                   <input
-                    type="password"
+                    ref="name"
+                    type="text"
                     class="form-control"
-                    placeholder="Password *"
-                    v-model="member.password"
+                    placeholder="Name *"
+                    v-model="registMember.name"
                   />
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control" placeholder="Email *" value="" />
+                  <input
+                    ref="password"
+                    type="password"
+                    class="form-control"
+                    placeholder="Password *"
+                    v-model="registMember.password"
+                  />
                 </div>
                 <div class="form-group">
                   <input
+                    ref="passwordCheck"
+                    type="password"
+                    class="form-control"
+                    placeholder="Password *"
+                    v-model="registMember.passwordCheck"
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    ref="email"
+                    type="email"
+                    class="form-control"
+                    placeholder="Email *"
+                    v-model="registMember.email"
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    ref="phone"
                     type="text"
                     maxlength="10"
                     minlength="10"
                     class="form-control"
                     placeholder="Phone *"
-                    value=""
+                    v-model="registMember.phone"
                   />
                 </div>
                 <div class="d-flex justify-content-center">
-                  <b-button pill variant="primary" size="lg">REGISTER</b-button>
+                  <b-button pill variant="primary" size="lg" @click="checkRegisterData()"
+                    >REGISTER</b-button
+                  >
                 </div>
               </div>
             </div>
@@ -123,7 +149,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 const memberStore = "memberStore";
 export default {
   name: "LoginNRegister",
@@ -133,13 +159,22 @@ export default {
         nickname: null,
         password: null,
       },
+      registMember: {
+        nickname: null,
+        name: null,
+        password: null,
+        passwordCheck: null,
+        email: null,
+        phone: null,
+      },
     };
   },
   computed: {
-    ...mapState(memberStore, ["isLogin", "isLoginError"]),
+    ...mapState(memberStore, ["isLogin", "isLoginError", "isRegister"]),
   },
   methods: {
-    ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    ...mapMutations(memberStore, ["SET_IS_REGISTER"]),
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo", "regMember"]),
     async confirm() {
       await this.userConfirm(this.member);
       let token = sessionStorage.getItem("access-token");
@@ -149,6 +184,39 @@ export default {
       } else {
         alert("아이디 또는 비밀번호를 확인하세요.");
       }
+    },
+    async registerMember() {
+      this.SET_IS_REGISTER(false);
+      await this.regMember(this.registMember);
+
+      if (this.isRegister) {
+        alert("회원가입에 성공했습니다.");
+      } else {
+        alert("회원가입에 실패했습니다.");
+      }
+    },
+    checkRegisterData() {
+      let err = true;
+      let msg = "";
+      !this.registMember.nickname &&
+        ((msg = "아이디를 입력해주세요"), (err = false), this.$refs.nickname.focus());
+      !this.registMember.name &&
+        ((msg = "이름을 입력해주세요"), (err = false), this.$refs.name.focus());
+      err &&
+        !this.registMember.password &&
+        ((msg = "비밀번호를 입력해주세요"), (err = false), this.$refs.password.focus());
+      err &&
+        this.registMember.password != this.registMember.passwordCheck &&
+        ((msg = "비밀번호가 다릅니다."), (err = false), this.$refs.passwordCheck.focus());
+      err &&
+        !this.registMember.email &&
+        ((msg = "주소를 입력해주세요"), (err = false), this.$refs.email.focus());
+      err &&
+        !this.registMember.phone &&
+        ((msg = "전화번호를 입력해주세요"), (err = false), this.$refs.phone.focus());
+
+      if (!err) alert(msg);
+      else this.registerMember();
     },
   },
 };

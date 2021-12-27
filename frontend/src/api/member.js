@@ -17,6 +17,11 @@ async function findById(userid, success, fail) {
     .catch(fail);
 }
 
-// function logout(success, fail)
+async function signUp(user, success, fail) {
+  await api
+    .post(`/member`, JSON.stringify(user))
+    .then(success)
+    .catch(fail);
+}
 
-export { login, findById };
+export { login, findById, signUp };

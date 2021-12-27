@@ -1,6 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { login } from "@/api/member.js";
-import { findById } from "../../api/member";
+import { login, findById, signUp } from "@/api/member.js";
 
 const memberStore = {
   namespaced: true,
@@ -8,6 +7,7 @@ const memberStore = {
     isLogin: false,
     isLoginError: false,
     userInfo: null,
+    isRegister: false,
   },
   getters: {
     checkUserInfo: function(state) {
@@ -24,6 +24,9 @@ const memberStore = {
     SET_USER_INFO: (state, userInfo) => {
       state.isLogin = true;
       state.userInfo = userInfo;
+    },
+    SET_IS_REGISTER: (state, isRegister) => {
+      state.isRegister = isRegister;
     },
   },
   actions: {
@@ -61,6 +64,15 @@ const memberStore = {
           console.log(error);
         }
       );
+    },
+    async regMember({ commit }, user) {
+      await signUp(user, (response) => {
+        if (response.data === "success") {
+          commit("SET_IS_REGISTER", true);
+        } else {
+          commit("SET_IS_REGISTER", false);
+        }
+      });
     },
   },
 };
