@@ -7174,3 +7174,23 @@ Caused by: java.lang.NoSuchMethodException: org.springframework.context.annotati
 	at java.lang.Class.getDeclaredMethod(Class.java:2130)
 	at org.springframework.core.annotation.AnnotationUtils$AliasDescriptor.<init>(AnnotationUtils.java:2121)
 	... 22 more
+
+!ENTRY org.eclipse.egit.core 4 0 2021-12-27 20:39:01.771
+!MESSAGE An exception occurred during push on URI https://lab.ssafy.com/dqq9744/happyhouse_final.git: https://lab.ssafy.com/dqq9744/happyhouse_final.git: not authorized
+!STACK 0
+org.eclipse.jgit.api.errors.TransportException: https://lab.ssafy.com/dqq9744/happyhouse_final.git: not authorized
+	at org.eclipse.jgit.api.PushCommand.call(PushCommand.java:147)
+	at org.eclipse.egit.core.op.PushOperation.run(PushOperation.java:217)
+	at org.eclipse.egit.ui.internal.push.PushJob.performJob(PushJob.java:86)
+	at org.eclipse.egit.ui.internal.jobs.RepositoryJob.run(RepositoryJob.java:59)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.eclipse.jgit.errors.TransportException: https://lab.ssafy.com/dqq9744/happyhouse_final.git: not authorized
+	at org.eclipse.jgit.transport.TransportHttp.connect(TransportHttp.java:538)
+	at org.eclipse.jgit.transport.TransportHttp.openPush(TransportHttp.java:434)
+	at org.eclipse.jgit.transport.PushProcess.execute(PushProcess.java:127)
+	at org.eclipse.jgit.transport.Transport.push(Transport.java:1335)
+	at org.eclipse.jgit.api.PushCommand.call(PushCommand.java:137)
+	... 4 more
+
+!ENTRY org.eclipse.egit.ui 4 0 2021-12-27 20:39:01.776
+!MESSAGE Can't connect to any repository: https://lab.ssafy.com/dqq9744/happyhouse_final.git (https://lab.ssafy.com/dqq9744/happyhouse_final.git: not authorized)

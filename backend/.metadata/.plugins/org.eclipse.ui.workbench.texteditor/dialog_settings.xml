@@ -6,7 +6,12 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
+		<item key="selection" value="this.get"/>
 		<list key="findhistory">
+			<item value="this.get"/>
+			<item value="get"/>
+			<item value="jwtService.get"/>
+			<item value="create"/>
 		</list>
 		<list key="replacehistory">
 		</list>
